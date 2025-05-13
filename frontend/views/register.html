@@ -1,0 +1,132 @@
+<section id="register" class="container text-center page-section">
+    <h2 class="page-title">Register</h2>
+    <div id="register-form" class="form-container">
+        <h3>Register</h3>
+        <form id="registration-form" class="w-50 mx-auto" action="/register" method="POST" onsubmit="return validatePasswords()">
+            <div class="mb-3">
+                <label for="full-name" class="form-label">Full Name</label>
+                <input type="text" id="full-name" class="form-control" placeholder="Full Name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirm-password" class="form-label">Confirm Password</label>
+                <input type="password" id="confirm-password" class="form-control" placeholder="Confirm Password" required>
+            </div>
+            <p id="password-error" class="text-danger"></p>
+            <button type="submit" class="btn btn-success submit-btn">Register</button>
+        </form>
+        <p class="mt-3">Already have an account? <a href="login.html" class="login-link">Login here</a></p>
+    </div>
+    <button onclick="window.location.href='index.html'" class="btn btn-secondary back-home-btn">Back to Home</button>
+</section>
+
+<script>
+    function validatePasswords() {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+        const errorElement = document.getElementById("password-error");
+
+        if (password !== confirmPassword) {
+            errorElement.textContent = "Passwords do not match.";
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fc;
+    }
+
+    .container {
+        padding: 50px 15px;
+        margin: 0 auto;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    #register-form {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-label {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .form-control {
+        padding: 10px;
+        margin-top: 8px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        background-color: #28a745;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #218838;
+    }
+
+    .login-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .login-link:hover {
+        text-decoration: underline;
+    }
+
+    .back-home-btn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        background-color: #f44336;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .back-home-btn:hover {
+        background-color: #e53935;
+    }
+</style>
