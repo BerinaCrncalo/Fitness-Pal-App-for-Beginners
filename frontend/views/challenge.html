@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenges</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button.delete {
+            background-color: #f44336;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Challenges</h1>
+    
+    <button class="button" id="getChallengesBtn">Get All Challenges</button>
+    <button class="button" id="createChallengeBtn">Create New Challenge</button>
+
+    <div id="challengeList">
+        <!-- Challenges will be listed here -->
+    </div>
+
+    <div id="challengeForm" style="display:none;">
+        <h2>Create or Edit Challenge</h2>
+        <div class="form-group">
+            <label for="challengeName">Challenge Name</label>
+            <input type="text" id="challengeName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="challengeDescription">Description</label>
+            <input type="text" id="challengeDescription" class="form-control" />
+        </div>
+        <button class="button" id="saveChallengeBtn">Save Challenge</button>
+        <button class="button" id="cancelChallengeBtn">Cancel</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Load all challenges
+        $('#getChallengesBtn').click(function() {
+            $.get("http://localhost:5500/rest/challenge", function(data) {
+                let challengeListHTML = '';
+                data.forEach(challenge => {
+                    challengeListHTML += `
+                        <div>
+                            <h3>${challenge.name}</h3>
+                            <p>${challenge.description}</p>
+                            <button class="button delete" onclick="deleteChallenge(${challenge.id})">Delete</button>
+                            <button class="button" onclick="editChallenge(${challenge.id})">Edit</button>
+                        </div>
+                    `;
+                });
+                $('#challengeList').html(challengeListHTML);
+            });
+        });
+
+        // Create new challenge form
+        $('#createChallengeBtn').click(function() {
+            $('#challengeForm').show();
+            $('#challengeName').val('');
+            $('#challengeDescription').val('');
+            $('#saveChallengeBtn').attr('onclick', 'saveChallenge()');
+        });
+
+        // Cancel challenge creation
+        $('#cancelChallengeBtn').click(function() {
+            $('#challengeForm').hide();
+        });
+    });
+
+    // Save or update challenge
+    function saveChallenge() {
+        const name = $('#challengeName').val();
+        const description = $('#challengeDescription').val();
+
+        if (!name || !description) {
+            alert("Please fill out both fields.");
+            return;
+        }
+
+        const challengeData = { name, description };
+
+        $.ajax({
+            url: "http://localhost:5500/rest/challenge",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(challengeData),
+            success: function(response) {
+                alert("Challenge created successfully");
+                $('#challengeForm').hide();
+                $('#getChallengesBtn').click(); // Reload challenges
+            },
+            error: function() {
+                alert("Error creating challenge");
+            }
+        });
+    }
+
+    // Delete challenge
+    function deleteChallenge(id) {
+        $.ajax({
+            url: `http://localhost:5500/rest/challenge/${id}`,
+            type: 'DELETE',
+            success: function() {
+                alert("Challenge deleted successfully");
+                $('#getChallengesBtn').click(); // Reload challenges
+            },
+            error: function() {
+                alert("Error deleting challenge");
+            }
+        });
+    }
+
+    // Edit challenge
+    function editChallenge(id) {
+        $.get(`http://localhost:5500/rest/challenge/${id}`, function(data) {
+            $('#challengeName').val(data.name);
+            $('#challengeDescription').val(data.description);
+            $('#challengeForm').show();
+            $('#saveChallengeBtn').attr('onclick', `updateChallenge(${id})`);
+        });
+    }
+
+    // Update challenge
+    function updateChallenge(id) {
+        const name = $('#challengeName').val();
+        const description = $('#challengeDescription').val();
+
+        if (!name || !description) {
+            alert("Please fill out both fields.");
+            return;
+        }
+
+        const challengeData = { name, description };
+
+        $.ajax({
+            url: `http://localhost:5500/rest/challenge/${id}`,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(challengeData),
+            success: function() {
+                alert("Challenge updated successfully");
+                $('#challengeForm').hide();
+                $('#getChallengesBtn').click(); // Reload challenges
+            },
+            error: function() {
+                alert("Error updating challenge");
+            }
+        });
+    }
+</script>
+</body>
+</html>

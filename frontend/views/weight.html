@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weight Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 40px;
+    }
+
+    .container {
+      max-width: 800px;
+    }
+
+    .form-section {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-center mb-4">Weight Management</h2>
+
+    <!-- Add/Edit Form -->
+    <div class="form-section">
+      <form id="weight-form">
+        <input type="hidden" id="weight-id">
+        <div class="mb-3">
+          <label for="weight-value" class="form-label">Weight (kg):</label>
+          <input type="number" class="form-control" id="weight-value" required>
+        </div>
+        <div class="mb-3">
+          <label for="weight-date" class="form-label">Date:</label>
+          <input type="date" class="form-control" id="weight-date" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit-btn">Add Weight</button>
+        <button type="button" class="btn btn-secondary" id="cancel-edit" style="display: none;">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Table of entries -->
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Weight</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="weight-table-body"></tbody>
+    </table>
+
+    <div id="message" class="text-center mt-3 text-success fw-bold"></div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const API_URL = '/weight';
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token
+    };
+
+    async function loadWeights() {
+      const res = await fetch('/weights', { headers });
+      const data = await res.json();
+
+      const tbody = document.getElementById('weight-table-body');
+      tbody.innerHTML = '';
+
+      data.forEach(item => {
+        const row = `
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.weight}</td>
+            <td>${item.date}</td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editWeight(${item.id}, '${item.weight}', '${item.date}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteWeight(${item.id})">Delete</button>
+            </td>
+          </tr>
+        `;
+        tbody.innerHTML += row;
+      });
+    }
+
+    document.getElementById('weight-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('weight-id').value;
+      const weight = document.getElementById('weight-value').value;
+      const date = document.getElementById('weight-date').value;
+
+      const payload = { weight, date };
+
+      const url = id ? `${API_URL}/${id}` : API_URL;
+      const method = id ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers,
+        body: JSON.stringify(payload)
+      });
+
+      const result = await res.json();
+      document.getElementById('message').innerText = result.message;
+      document.getElementById('weight-form').reset();
+      document.getElementById('submit-btn').innerText = 'Add Weight';
+      document.getElementById('cancel-edit').style.display = 'none';
+      loadWeights();
+    });
+
+    function editWeight(id, weight, date) {
+      document.getElementById('weight-id').value = id;
+      document.getElementById('weight-value').value = weight;
+      document.getElementById('weight-date').value = date;
+      document.getElementById('submit-btn').innerText = 'Update Weight';
+      document.getElementById('cancel-edit').style.display = 'inline-block';
+    }
+
+    function deleteWeight(id) {
+      if (confirm('Are you sure you want to delete this entry?')) {
+        fetch(`${API_URL}/${id}`, {
+          method: 'DELETE',
+          headers
+        })
+        .then(res => res.json())
+        .then(result => {
+          document.getElementById('message').innerText = result.message;
+          loadWeights();
+        });
+      }
+    }
+
+    document.getElementById('cancel-edit').addEventListener('click', () => {
+      document.getElementById('weight-form').reset();
+      document.getElementById('submit-btn').innerText = 'Add Weight';
+      document.getElementById('cancel-edit').style.display = 'none';
+    });
+
+    loadWeights();
+  </script>
+</body>
+</html>

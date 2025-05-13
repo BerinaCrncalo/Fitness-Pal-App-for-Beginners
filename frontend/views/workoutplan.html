@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workout Plans</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Workout Plans</h1>
+
+    <div>
+        <h3>Add Workout Plan</h3>
+        <input type="text" id="plan_name" placeholder="Plan Name">
+        <input type="text" id="plan_description" placeholder="Plan Description">
+        <input type="text" id="plan_duration" placeholder="Duration (in weeks)">
+        <button onclick="addWorkoutPlan()">Add</button>
+    </div>
+
+    <h3>All Workout Plans</h3>
+    <ul id="workoutplan_list"></ul>
+
+    <script>
+        const API_BASE = "http://localhost:5500/workoutplan";
+
+        function getWorkoutPlans() {
+            fetch(`${API_BASE}/workoutplan`, {
+                headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+            })
+            .then(res => res.json())
+            .then(data => {
+                const list = document.getElementById("workoutplan_list");
+                list.innerHTML = "";
+                data.forEach(plan => {
+                    const item = document.createElement("li");
+                    item.innerHTML = `
+                        <strong>${plan.plan_name}</strong> - ${plan.plan_description} (${plan.plan_duration} weeks)
+                        <button onclick="deleteWorkoutPlan(${plan.id})">Delete</button>
+                        <button onclick="editWorkoutPlan(${plan.id}, '${plan.plan_name}', '${plan.plan_description}', '${plan.plan_duration}')">Edit</button>
+                    `;
+                    list.appendChild(item);
+                });
+            });
+        }
+
+        function addWorkoutPlan() {
+            const plan = {
+                plan_name: document.getElementById("plan_name").value,
+                plan_description: document.getElementById("plan_description").value,
+                plan_duration: document.getElementById("plan_duration").value
+            };
+
+            fetch(`${API_BASE}/workoutplan`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                body: JSON.stringify(plan)
+            })
+            .then(res => res.json())
+            .then(() => {
+                getWorkoutPlans();
+            });
+        }
+
+        function deleteWorkoutPlan(id) {
+            fetch(`${API_BASE}/workoutplan/${id}`, {
+                method: "DELETE",
+                headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+            })
+            .then(() => getWorkoutPlans());
+        }
+
+        function editWorkoutPlan(id, name, description, duration) {
+            const newName = prompt("Enter new name", name);
+            const newDescription = prompt("Enter new description", description);
+            const newDuration = prompt("Enter new duration (weeks)", duration);
+
+            const updatedPlan = {
+                plan_name: newName,
+                plan_description: newDescription,
+                plan_duration: newDuration
+            };
+
+            fetch(`${API_BASE}/workoutplan/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                body: JSON.stringify(updatedPlan)
+            })
+            .then(res => res.json())
+            .then(() => getWorkoutPlans());
+        }
+
+        getWorkoutPlans();
+    </script>
+</body>
+</html>
