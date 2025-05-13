@@ -5,6 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Pal - Home</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* Cool enhancements */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem;
+            background-color: #f9f9f9;
+        }
+
+        .feature {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            text-align: center;
+            width: 280px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .buttons .cta-button {
+            margin: 0 0.5rem;
+        }
+
+        .hero {
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+
+        .cta-button.secondary {
+            background-color: #6c757d;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -12,9 +79,9 @@
         <nav>
             <ul>
                 <li><a href="../views/workouts.html">Workouts</a></li>
-                <li><a href="../views/nutrition.html">Nutrition</a></li>
-                <li><a href="../views/progress.html">Progress</a></li>
-                <li><a href="../views/profile.html">Profile</a></li>
+                <li><a href="../views/meal.html">Meals</a></li>
+                <li><a href="../views/weight.html">Weight</a></li>
+                <li><a href="../views/user.html">Profile</a></li>
             </ul>
         </nav>
     </header>
@@ -29,16 +96,20 @@
             </div>
         </div>
     </section>
+
     <section class="features">
         <div class="feature">
+            <img src="/frontend/assets/dumbbells.png">
             <h3>💪 Custom Workouts</h3>
             <p>Create and track your personalized training plans.</p>
         </div>
         <div class="feature">
+            <img src="/frontend/assets/nutrition.png">
             <h3>🥗 Nutrition Logs</h3>
             <p>Monitor calories, macros, and stay on track.</p>
         </div>
         <div class="feature">
+            <img src="/frontend/assets/chart.png">
             <h3>📈 Progress Charts</h3>
             <p>Visualize your improvements and hit your goals.</p>
         </div>
