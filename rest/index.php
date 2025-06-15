@@ -15,7 +15,14 @@ require "services/WorkoutplanService.php";
 require "services/WorkoutService.php";
 
 
+header("Access-Control-Allow-Origin: http://127.0.0.1:5501");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 Flight::register("challenge_service", "ChallengeService");
 Flight::register("meal_service", "MealService");
@@ -57,12 +64,13 @@ Flight::route('/*', function () {
   }
 });
   
-
 Flight::route('GET /docs.json', function(){
-    $openapi = \OpenApi\scan('routes');
+    $openapi = \OpenApi\scan('routes');  
     header('Content-Type: application/json');
     echo $openapi->toJson();
 });
+
+
 
 Flight::start();
 

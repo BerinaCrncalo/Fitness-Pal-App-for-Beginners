@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Progress Charts - Fitness Pal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <a href="../views/index.html" class="btn-back-home">← Back to Home</a>
+  <div class="container">
+    <h1>📈 Progress Charts</h1>
+    <canvas id="weightChart" width="400" height="200"></canvas>
+  </div>
+
+  <script>
+    // Dummy weight data
+    const weightData = {
+      labels: ['May 10', 'May 15', 'May 20', 'May 25', 'Jun 1'],
+      datasets: [{
+        label: 'Weight (kg)',
+        data: [70, 69.5, 69, 68.8, 68],
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 2,
+        fill: false,
+        tension: 0.3
+      }]
+    };
+
+    const config = {
+      type: 'line',
+      data: weightData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true }
+        },
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    };
+
+    new Chart(document.getElementById('weightChart'), config);
+  </script>
+</body>
+</html>

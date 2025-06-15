@@ -14,7 +14,7 @@ class BaseDao{
             $password = Config::DB_PASSWORD();
             $port = Config::DB_PORT();
             $schema = Config::DB_SCHEMA();
-            $this->conn = new PDO("mysql:host=$servername;port = $port;dbname=$schema", $username, $password);
+            $this->conn = new PDO("mysql:host=$servername;port=$port;dbname=$schema", $username, $password);
             // set the PDO error mode to exception
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //echo "Connected successfully";
@@ -38,7 +38,7 @@ class BaseDao{
     {
         $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE id=:id");
         $stmt->execute(['id' => $id]);
-        return $stmt->fetchAll();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 
