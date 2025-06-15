@@ -123,3 +123,151 @@ footer {
         font-size: 16px;
     }
 }
+.btn-back-home {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+  }
+  
+  .btn-back-home:hover {
+    background-color: #0056b3;
+  }
+
+  /* Meals */
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f8;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  h1.title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #2c3e50;
+  }
+
+  .form-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+  }
+
+  form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+  }
+
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #27ae60;
+  }
+
+  #meal-list h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  #meals {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .meal-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+
+  .meal-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .meal-card strong {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #34495e;
+  }
+
+  .meal-card p {
+    margin: 4px 0;
+  }
+
+  .meal-card .actions {
+    margin-top: 10px;
+  }
+
+  .meal-card button {
+    margin-right: 8px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+
+  .btn-edit {
+    background-color: #3498db;
+  }
+
+  .btn-edit:hover {
+    background-color: #2980b9;
+  }
+
+  .btn-delete {
+    background-color: #e74c3c;
+  }
+
+  .btn-delete:hover {
+    background-color: #c0392b;
+  }
+
+  .btn-back {
+    display: inline-block;
+    margin-bottom: 30px;
+    text-decoration: none;
+    color: #2980b9;
+    font-weight: bold;
+  }
+
+  .btn-back:hover {
+    text-decoration: underline;
+  }
