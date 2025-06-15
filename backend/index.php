@@ -14,7 +14,7 @@ if (php_sapi_name() === 'cli') {
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // CORS headers - adjust origin as needed
-header("Access-Control-Allow-Origin:  fitness-app-u6kxs.ondigitalocean.app");
+header("Access-Control-Allow-Origin: https://fitness-app-u6kxs.ondigitalocean.app");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
